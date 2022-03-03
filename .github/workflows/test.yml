@@ -1,0 +1,29 @@
+name: test
+
+on: [push]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+        go-version: [1.17.x]
+        golangcilint-version: [1.42.0]
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: v${{ matrix.golangcilint-version }}
+          working-directory: .
+      - name: Run CI test
+        run: make ci-test
+        env:
+          SORACOM_AUTH_KEY: ${{ secrets.SORACOM_AUTH_KEY }}
+          SORACOM_AUTH_KEY_ID: ${{ secrets.SORACOM_AUTH_KEY_ID }}

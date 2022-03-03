@@ -1,0 +1,10 @@
+github:
+  - .github/**/*
+docs:
+  - docs/**/*
+sdk:
+  - openapi/**/*
+specs:
+  - specs/**/*
+test:
+  - test/**/*
