@@ -40,7 +40,7 @@ func GetClient() *soracom.APIClient {
 
 func NewTestSandboxConfigs(authKeyId, authKey string) (*TestSandboxConfigs, error) {
 	randStr := strconv.FormatInt(time.Now().UnixNano(), 10)
-	sandboxInitRequest := *sandbox.NewSandboxInitRequest(authKey, authKeyId, fmt.Sprintf("sdk-test+%s@soracom.jp", randStr), fmt.Sprintf("Password%s", randStr))
+	sandboxInitRequest := *sandbox.NewSandboxInitRequest(authKey, authKeyId, fmt.Sprintf("openapi-client-go-test+%s@soracom.jp", randStr), fmt.Sprintf("Password%s", randStr))
 	sandboxInitRequest.CoverageTypes = append(sandboxInitRequest.CoverageTypes, "g", "jp")
 	configuration := sandbox.NewConfiguration()
 	client := sandbox.NewAPIClient(configuration)

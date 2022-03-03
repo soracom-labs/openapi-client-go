@@ -8,8 +8,8 @@
 # SORACOM API client for Go based on OpenAPI Generator
 
 `soracom-labs/openapi-client-go` is a SORACOM API client for the Go programming language based on OpenAPI Generator.
-This project only contains auth-generated codes from SORACOM API schema from OpenAPI Generator.
-We recommend to use [soracom/soracom-sdk-go](https://github.com/soracom/soracom-sdk-go), which is the official SORACOM SDK for the Go programming language.
+This project only contains auto-generated codes from SORACOM API schema from OpenAPI Generator.
+
 ## Documentation
 
 Refer to the following docs for more detail about the client.

@@ -1,5 +1,5 @@
 # Project information
-site_name: SORACOM SDK for Go
+site_name: SORACOM API client for Go based on OpenAPI Generator
 site_url: https://soracom-labs.github.io/openapi-client-go
 site_author: Soracom, Inc.
 

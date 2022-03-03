@@ -2,7 +2,7 @@ github:
   - .github/**/*
 docs:
   - docs/**/*
-sdk:
+openapi:
   - openapi/**/*
 specs:
   - specs/**/*
