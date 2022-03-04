@@ -48,7 +48,7 @@ func NewTestSandboxConfigs(authKeyId, authKey string) (*TestSandboxConfigs, erro
 	if err != nil {
 		return nil, err
 	}
-	if r.StatusCode != 200 {
+	if r.StatusCode != 201 {
 		return nil, fmt.Errorf("Invalid HTTP response: %v", r.StatusCode)
 	}
 	return &TestSandboxConfigs{
