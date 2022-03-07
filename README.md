@@ -1,4 +1,3 @@
-[![go report status](https://goreportcard.com/badge/github.com/soracom-labs/openapi-client-go)](https://goreportcard.com/report/github.com/soracom-labs/openapi-client-go)
 [![Go Reference](https://pkg.go.dev/badge/github.com/soracom-labs/openapi-client-go.svg)](https://pkg.go.dev/github.com/soracom-labs/openapi-client-go)
 [![test](https://github.com/soracom-labs/openapi-client-go/workflows/test/badge.svg)](https://github.com/soracom-labs/openapi-client-go/actions/workflows/test.yml)
 [![release-drafter](https://github.com/soracom-labs/openapi-client-go/workflows/release-drafter/badge.svg)](https://github.com/soracom-labs/openapi-client-go/actions/workflows/release-drafter.yml)
