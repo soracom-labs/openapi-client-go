@@ -4,7 +4,7 @@ SOURCE_FILES ?= $(shell find . -not -path "./$(GENERATED_DIR)/*" -type f -name '
 INPUT_SPECS ?= api sandbox
 
 GIT_REVISION ?= $(shell git rev-parse --short HEAD)
-GIT_TAG ?= $(shell git describe --tags || echo "v0.0.0")
+GIT_TAG ?= $(shell git describe --tags --abbrev=0 | sed -e s/v//g)
 
 GOLANGCI_LINT_VERSION ?= 1.43.0
 GOLANGCI_LINT ?= golangci-lint
@@ -53,7 +53,8 @@ generate-spec: ## run OpenAPI Generator
 		--package-name $(INPUT_SPEC) \
 		--git-host github.com \
 		--git-user-id soracom-labs \
-		--git-repo-id openapi-client-go
+		--git-repo-id openapi-client-go \
+		--http-user-agent openapi-client-go/$(GIT_TAG)
 	cd $(GENERATED_DIR)/$(INPUT_SPEC) && rm -rf $(REMOVE_GENERATED_FILES)
 
 .PHONY: generate-diff-check
