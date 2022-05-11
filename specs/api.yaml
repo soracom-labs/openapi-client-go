@@ -15935,13 +15935,13 @@ components:
     LocationRegistrationStatus:
       properties:
         cs:
-          $ref: '#components/schemas/LocationRegistrationStatusForNetwork'
+          $ref: '#/components/schemas/LocationRegistrationStatusForNetwork'
           description: Information on location registration to the CS network
         eps:
-          $ref: '#components/schemas/LocationRegistrationStatusForNetwork'
+          $ref: '#/components/schemas/LocationRegistrationStatusForNetwork'
           description: Information on location registration to the EPS network
         ps:
-          $ref: '#components/schemas/LocationRegistrationStatusForNetwork'
+          $ref: '#/components/schemas/LocationRegistrationStatusForNetwork'
           description: Information on location registration to the PS network
       type: object
     LocationRegistrationStatusForNetwork:
