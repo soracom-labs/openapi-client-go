@@ -24,7 +24,7 @@ type GetShippingAddressResponse struct {
 	Department *string `json:"department,omitempty"`
 	FullName *string `json:"fullName,omitempty"`
 	PhoneNumber string `json:"phoneNumber"`
-	// 配送先ID
+	// 配送先 ID
 	ShippingAddressId string `json:"shippingAddressId"`
 	// 配送先エリア
 	ShippingArea string `json:"shippingArea"`

@@ -16,11 +16,11 @@ import (
 
 // FileExportResponse struct for FileExportResponse
 type FileExportResponse struct {
-	// ファイル出力ID(リクエストにexport_mode=asyncを指定した場合）
+	// ファイル出力 ID(リクエストに export_mode=async を指定した場合）
 	ExportedFileId *string `json:"exportedFileId,omitempty"`
-	// 出力済みファイル取得パス(リクエストにexport_mode=asyncを付与した場合）
+	// 出力済みファイル取得パス(リクエストに export_mode=async を付与した場合）
 	ExportedFilePath *string `json:"exportedFilePath,omitempty"`
-	// ファイルダウンロードURL(export_mode指定なし、もしくはexport_mode=syncの場合
+	// ファイルダウンロード URL(export_mode 指定なし、もしくは export_mode=sync の場合
 	Url *string `json:"url,omitempty"`
 }
 

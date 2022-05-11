@@ -2123,10 +2123,10 @@ func (a *SimApiService) EnableSubscriptionContainerExecute(r ApiEnableSubscripti
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/sims/{sim_id}/profiles/{iccid}/subscription_containers/{containerId}/enable"
+	localVarPath := localBasePath + "/sims/{sim_id}/profiles/{iccid}/subscription_containers/{container_id}/enable"
 	localVarPath = strings.Replace(localVarPath, "{"+"sim_id"+"}", url.PathEscape(parameterToString(r.simId, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"iccid"+"}", url.PathEscape(parameterToString(r.iccid, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"containerId"+"}", url.PathEscape(parameterToString(r.containerId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"container_id"+"}", url.PathEscape(parameterToString(r.containerId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -2847,7 +2847,7 @@ func (r ApiListSimSessionEventsRequest) Execute() ([]SessionEvent, *http.Respons
 /*
 ListSimSessionEvents List Session Events.
 
-Returns the history of session creation, change, and deletion events occurred on the target SIM in the last 14 days. If the total number of events does not fit in one page, a URL for accessing the next page is returned in the `Link` header of the response.
+Returns the history of session creation, change, and deletion events occurred on the target SIM in the last 32 days. If the total number of events does not fit in one page, a URL for accessing the next page is returned in the `Link` header of the response.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param simId SIM ID of the target SIM.

@@ -38,6 +38,7 @@ type Subscriber struct {
 	LastModifiedAt *int64 `json:"lastModifiedAt,omitempty"`
 	// The timestamp (in Unix milliseconds) of the last instance where the Napter On-Demand Remote Access service was used with the subscriber. If Napter has never been used with the subscriber, null is returned.
 	LastPortMappingCreatedTime *int64 `json:"lastPortMappingCreatedTime,omitempty"`
+	LocationRegistrationStatus *LocationRegistrationStatus `json:"locationRegistrationStatus,omitempty"`
 	// The form factor of the physical SIM. Possible values are \"mini\" for 2FF SIM card, \"micro\" for 3FF SIM card, \"nano\" for 4FF SIM card, \"trio\" for a Universal 3-in-1 (2FF/3FF/4FF) SIM card, or \"embedded\" for MFF2 or Embedded SIM (eSIM).
 	ModuleType *string `json:"moduleType,omitempty"`
 	// The MSISDN of the SIM.
@@ -498,6 +499,38 @@ func (o *Subscriber) HasLastPortMappingCreatedTime() bool {
 // SetLastPortMappingCreatedTime gets a reference to the given int64 and assigns it to the LastPortMappingCreatedTime field.
 func (o *Subscriber) SetLastPortMappingCreatedTime(v int64) {
 	o.LastPortMappingCreatedTime = &v
+}
+
+// GetLocationRegistrationStatus returns the LocationRegistrationStatus field value if set, zero value otherwise.
+func (o *Subscriber) GetLocationRegistrationStatus() LocationRegistrationStatus {
+	if o == nil || o.LocationRegistrationStatus == nil {
+		var ret LocationRegistrationStatus
+		return ret
+	}
+	return *o.LocationRegistrationStatus
+}
+
+// GetLocationRegistrationStatusOk returns a tuple with the LocationRegistrationStatus field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Subscriber) GetLocationRegistrationStatusOk() (*LocationRegistrationStatus, bool) {
+	if o == nil || o.LocationRegistrationStatus == nil {
+		return nil, false
+	}
+	return o.LocationRegistrationStatus, true
+}
+
+// HasLocationRegistrationStatus returns a boolean if a field has been set.
+func (o *Subscriber) HasLocationRegistrationStatus() bool {
+	if o != nil && o.LocationRegistrationStatus != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLocationRegistrationStatus gets a reference to the given LocationRegistrationStatus and assigns it to the LocationRegistrationStatus field.
+func (o *Subscriber) SetLocationRegistrationStatus(v LocationRegistrationStatus) {
+	o.LocationRegistrationStatus = &v
 }
 
 // GetModuleType returns the ModuleType field value if set, zero value otherwise.
@@ -1020,6 +1053,9 @@ func (o Subscriber) MarshalJSON() ([]byte, error) {
 	}
 	if o.LastPortMappingCreatedTime != nil {
 		toSerialize["lastPortMappingCreatedTime"] = o.LastPortMappingCreatedTime
+	}
+	if o.LocationRegistrationStatus != nil {
+		toSerialize["locationRegistrationStatus"] = o.LocationRegistrationStatus
 	}
 	if o.ModuleType != nil {
 		toSerialize["moduleType"] = o.ModuleType

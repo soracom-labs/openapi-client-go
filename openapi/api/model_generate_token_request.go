@@ -16,7 +16,7 @@ import (
 
 // GenerateTokenRequest struct for GenerateTokenRequest
 type GenerateTokenRequest struct {
-	// 新しい API トークンの有効期限の長さ（秒単位）。 指定しなければデフォルトは 86400 [秒]（24時間）。 最大値は 172800 [秒]（48時間）。 
+	// 新しい API トークンの有効期限の長さ（秒単位）。 指定しなければデフォルトは 86400 [秒]（24 時間）。 最大値は 172800 [秒]（48 時間）。 
 	TokenTimeoutSeconds *int32 `json:"tokenTimeoutSeconds,omitempty"`
 }
 

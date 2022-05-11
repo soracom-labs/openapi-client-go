@@ -16,7 +16,7 @@ import (
 
 // VerifySubscriberTransferTokenResponse struct for VerifySubscriberTransferTokenResponse
 type VerifySubscriberTransferTokenResponse struct {
-	// 移管されたIMSIリスト
+	// 移管された IMSI リスト
 	TransferredImsi []string `json:"transferredImsi"`
 }
 

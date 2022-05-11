@@ -16,7 +16,9 @@ import (
 
 // Capabilities struct for Capabilities
 type Capabilities struct {
+	// - `true`: データ通信あり - `false`: データ通信なし 
 	Data *bool `json:"data,omitempty"`
+	// - `true`: SMS あり - `false`: SMS なし 
 	Sms *bool `json:"sms,omitempty"`
 }
 

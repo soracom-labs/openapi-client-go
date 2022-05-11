@@ -19,7 +19,6 @@ type SandboxAuthResponse struct {
 	ApiKey *string `json:"apiKey,omitempty"`
 	OperatorId *string `json:"operatorId,omitempty"`
 	Token *string `json:"token,omitempty"`
-	UserName *string `json:"userName,omitempty"`
 }
 
 // NewSandboxAuthResponse instantiates a new SandboxAuthResponse object
@@ -135,38 +134,6 @@ func (o *SandboxAuthResponse) SetToken(v string) {
 	o.Token = &v
 }
 
-// GetUserName returns the UserName field value if set, zero value otherwise.
-func (o *SandboxAuthResponse) GetUserName() string {
-	if o == nil || o.UserName == nil {
-		var ret string
-		return ret
-	}
-	return *o.UserName
-}
-
-// GetUserNameOk returns a tuple with the UserName field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SandboxAuthResponse) GetUserNameOk() (*string, bool) {
-	if o == nil || o.UserName == nil {
-		return nil, false
-	}
-	return o.UserName, true
-}
-
-// HasUserName returns a boolean if a field has been set.
-func (o *SandboxAuthResponse) HasUserName() bool {
-	if o != nil && o.UserName != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetUserName gets a reference to the given string and assigns it to the UserName field.
-func (o *SandboxAuthResponse) SetUserName(v string) {
-	o.UserName = &v
-}
-
 func (o SandboxAuthResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ApiKey != nil {
@@ -177,9 +144,6 @@ func (o SandboxAuthResponse) MarshalJSON() ([]byte, error) {
 	}
 	if o.Token != nil {
 		toSerialize["token"] = o.Token
-	}
-	if o.UserName != nil {
-		toSerialize["userName"] = o.UserName
 	}
 	return json.Marshal(toSerialize)
 }

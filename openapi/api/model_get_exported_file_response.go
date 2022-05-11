@@ -18,7 +18,7 @@ import (
 type GetExportedFileResponse struct {
 	// ファイル出力ステータス
 	Status *string `json:"status,omitempty"`
-	// ファイルダウンロードURL
+	// ファイルダウンロード URL
 	Url *string `json:"url,omitempty"`
 }
 

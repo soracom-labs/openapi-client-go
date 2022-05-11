@@ -24,7 +24,7 @@ type SessionStatus struct {
 	// The IMEI of the device using the SIM.
 	Imei *string `json:"imei,omitempty"`
 	LastUpdatedAt *int64 `json:"lastUpdatedAt,omitempty"`
-	// Whether or not the SIM is online.
+	// セッション状態 - `true`: オンライン - `false`: オフライン 
 	Online *bool `json:"online,omitempty"`
 	// The IP address of the device.
 	UeIpAddress *string `json:"ueIpAddress,omitempty"`

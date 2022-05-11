@@ -18,8 +18,9 @@ import (
 type RuleConfigProperty struct {
 	InactiveTimeoutDateConst string `json:"inactiveTimeoutDateConst"`
 	InactiveTimeoutOffsetMinutes *string `json:"inactiveTimeoutOffsetMinutes,omitempty"`
-	LimitTotalTrafficMegaByte string `json:"limitTotalTrafficMegaByte"`
-	RunOnceAmongTarget *bool `json:"runOnceAmongTarget,omitempty"`
+	LimitTotalAmount *string `json:"limitTotalAmount,omitempty"`
+	LimitTotalTrafficMegaByte *string `json:"limitTotalTrafficMegaByte,omitempty"`
+	RunOnceAmongTarget *string `json:"runOnceAmongTarget,omitempty"`
 	// Only for SimSubscriptionStatusRule
 	TargetOtaStatus *string `json:"targetOtaStatus,omitempty"`
 	// Only for SubscriberSpeedClassAttributeRule, SimSpeedClassAttributeRule
@@ -32,10 +33,9 @@ type RuleConfigProperty struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRuleConfigProperty(inactiveTimeoutDateConst string, limitTotalTrafficMegaByte string) *RuleConfigProperty {
+func NewRuleConfigProperty(inactiveTimeoutDateConst string) *RuleConfigProperty {
 	this := RuleConfigProperty{}
 	this.InactiveTimeoutDateConst = inactiveTimeoutDateConst
-	this.LimitTotalTrafficMegaByte = limitTotalTrafficMegaByte
 	return &this
 }
 
@@ -103,34 +103,74 @@ func (o *RuleConfigProperty) SetInactiveTimeoutOffsetMinutes(v string) {
 	o.InactiveTimeoutOffsetMinutes = &v
 }
 
-// GetLimitTotalTrafficMegaByte returns the LimitTotalTrafficMegaByte field value
-func (o *RuleConfigProperty) GetLimitTotalTrafficMegaByte() string {
-	if o == nil {
+// GetLimitTotalAmount returns the LimitTotalAmount field value if set, zero value otherwise.
+func (o *RuleConfigProperty) GetLimitTotalAmount() string {
+	if o == nil || o.LimitTotalAmount == nil {
 		var ret string
 		return ret
 	}
-
-	return o.LimitTotalTrafficMegaByte
+	return *o.LimitTotalAmount
 }
 
-// GetLimitTotalTrafficMegaByteOk returns a tuple with the LimitTotalTrafficMegaByte field value
+// GetLimitTotalAmountOk returns a tuple with the LimitTotalAmount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RuleConfigProperty) GetLimitTotalTrafficMegaByteOk() (*string, bool) {
-	if o == nil  {
+func (o *RuleConfigProperty) GetLimitTotalAmountOk() (*string, bool) {
+	if o == nil || o.LimitTotalAmount == nil {
 		return nil, false
 	}
-	return &o.LimitTotalTrafficMegaByte, true
+	return o.LimitTotalAmount, true
 }
 
-// SetLimitTotalTrafficMegaByte sets field value
+// HasLimitTotalAmount returns a boolean if a field has been set.
+func (o *RuleConfigProperty) HasLimitTotalAmount() bool {
+	if o != nil && o.LimitTotalAmount != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLimitTotalAmount gets a reference to the given string and assigns it to the LimitTotalAmount field.
+func (o *RuleConfigProperty) SetLimitTotalAmount(v string) {
+	o.LimitTotalAmount = &v
+}
+
+// GetLimitTotalTrafficMegaByte returns the LimitTotalTrafficMegaByte field value if set, zero value otherwise.
+func (o *RuleConfigProperty) GetLimitTotalTrafficMegaByte() string {
+	if o == nil || o.LimitTotalTrafficMegaByte == nil {
+		var ret string
+		return ret
+	}
+	return *o.LimitTotalTrafficMegaByte
+}
+
+// GetLimitTotalTrafficMegaByteOk returns a tuple with the LimitTotalTrafficMegaByte field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *RuleConfigProperty) GetLimitTotalTrafficMegaByteOk() (*string, bool) {
+	if o == nil || o.LimitTotalTrafficMegaByte == nil {
+		return nil, false
+	}
+	return o.LimitTotalTrafficMegaByte, true
+}
+
+// HasLimitTotalTrafficMegaByte returns a boolean if a field has been set.
+func (o *RuleConfigProperty) HasLimitTotalTrafficMegaByte() bool {
+	if o != nil && o.LimitTotalTrafficMegaByte != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLimitTotalTrafficMegaByte gets a reference to the given string and assigns it to the LimitTotalTrafficMegaByte field.
 func (o *RuleConfigProperty) SetLimitTotalTrafficMegaByte(v string) {
-	o.LimitTotalTrafficMegaByte = v
+	o.LimitTotalTrafficMegaByte = &v
 }
 
 // GetRunOnceAmongTarget returns the RunOnceAmongTarget field value if set, zero value otherwise.
-func (o *RuleConfigProperty) GetRunOnceAmongTarget() bool {
+func (o *RuleConfigProperty) GetRunOnceAmongTarget() string {
 	if o == nil || o.RunOnceAmongTarget == nil {
-		var ret bool
+		var ret string
 		return ret
 	}
 	return *o.RunOnceAmongTarget
@@ -138,7 +178,7 @@ func (o *RuleConfigProperty) GetRunOnceAmongTarget() bool {
 
 // GetRunOnceAmongTargetOk returns a tuple with the RunOnceAmongTarget field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *RuleConfigProperty) GetRunOnceAmongTargetOk() (*bool, bool) {
+func (o *RuleConfigProperty) GetRunOnceAmongTargetOk() (*string, bool) {
 	if o == nil || o.RunOnceAmongTarget == nil {
 		return nil, false
 	}
@@ -154,8 +194,8 @@ func (o *RuleConfigProperty) HasRunOnceAmongTarget() bool {
 	return false
 }
 
-// SetRunOnceAmongTarget gets a reference to the given bool and assigns it to the RunOnceAmongTarget field.
-func (o *RuleConfigProperty) SetRunOnceAmongTarget(v bool) {
+// SetRunOnceAmongTarget gets a reference to the given string and assigns it to the RunOnceAmongTarget field.
+func (o *RuleConfigProperty) SetRunOnceAmongTarget(v string) {
 	o.RunOnceAmongTarget = &v
 }
 
@@ -263,7 +303,10 @@ func (o RuleConfigProperty) MarshalJSON() ([]byte, error) {
 	if o.InactiveTimeoutOffsetMinutes != nil {
 		toSerialize["inactiveTimeoutOffsetMinutes"] = o.InactiveTimeoutOffsetMinutes
 	}
-	if true {
+	if o.LimitTotalAmount != nil {
+		toSerialize["limitTotalAmount"] = o.LimitTotalAmount
+	}
+	if o.LimitTotalTrafficMegaByte != nil {
 		toSerialize["limitTotalTrafficMegaByte"] = o.LimitTotalTrafficMegaByte
 	}
 	if o.RunOnceAmongTarget != nil {

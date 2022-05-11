@@ -18,7 +18,7 @@ import (
 type APICallErrorMessage struct {
 	// エラーコード
 	Code string `json:"code"`
-	// エラーメッセージ。リクエスト時にX-Soracom-Langヘッダーに言語(en,ja)を設定するとその言語のメッセージがセットされます。
+	// エラーメッセージ。リクエスト時に X-Soracom-Lang ヘッダーに言語(en,ja)を設定するとその言語のメッセージがセットされます。
 	Message string `json:"message"`
 }
 
