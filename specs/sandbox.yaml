@@ -257,8 +257,6 @@ components:
           type: string
         token:
           type: string
-        userName:
-          type: string
       type: object
     sandboxBeamCounts:
       properties:
@@ -455,3 +453,4 @@ components:
         - orderId
         - operatorId
       type: object
+
