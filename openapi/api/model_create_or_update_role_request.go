@@ -17,7 +17,7 @@ import (
 // CreateOrUpdateRoleRequest struct for CreateOrUpdateRoleRequest
 type CreateOrUpdateRoleRequest struct {
 	Description *string `json:"description,omitempty"`
-	// PermissionのJSON
+	// Permission の JSON
 	Permission string `json:"permission"`
 }
 

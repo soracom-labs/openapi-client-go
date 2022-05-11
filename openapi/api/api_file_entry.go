@@ -283,7 +283,7 @@ type ApiFindFilesRequest struct {
 	ApiService *FileEntryApiService
 	scope *string
 	prefix *string
-	limit *string
+	limit *int32
 	lastEvaluatedKey *string
 }
 
@@ -298,7 +298,7 @@ func (r ApiFindFilesRequest) Prefix(prefix string) ApiFindFilesRequest {
 	return r
 }
 // Num of entries
-func (r ApiFindFilesRequest) Limit(limit string) ApiFindFilesRequest {
+func (r ApiFindFilesRequest) Limit(limit int32) ApiFindFilesRequest {
 	r.limit = &limit
 	return r
 }
@@ -710,12 +710,12 @@ type ApiListFilesRequest struct {
 	ApiService *FileEntryApiService
 	scope string
 	path string
-	limit *string
+	limit *int32
 	lastEvaluatedKey *string
 }
 
 // Num of entries
-func (r ApiListFilesRequest) Limit(limit string) ApiListFilesRequest {
+func (r ApiListFilesRequest) Limit(limit int32) ApiListFilesRequest {
 	r.limit = &limit
 	return r
 }

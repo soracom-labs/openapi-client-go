@@ -205,7 +205,7 @@ func (r ApiExportBeamStatsRequest) Execute() (*FileExportResponse, *http.Respons
 /*
 ExportBeamStats Export Beam Usage Report of All Subscribers.
 
-Retrieves a file containing the usage report of all subscribers for the specified operator. The report data range is specified with from, to in unixtime. The report contains monthly data. The file output destination is AWS S3. The file output format is CSV.
+Retrieves a file containing the SORACOM Beam usage report of all subscribers for the specified operator. The report data range is specified with from, to in unixtime. The report contains monthly data. The file output destination is AWS S3. The file output format is CSV.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param operatorId operator ID
@@ -235,6 +235,310 @@ func (a *StatsApiService) ExportBeamStatsExecute(r ApiExportBeamStatsRequest) (*
 	}
 
 	localVarPath := localBasePath + "/stats/beam/operators/{operator_id}/export"
+	localVarPath = strings.Replace(localVarPath, "{"+"operator_id"+"}", url.PathEscape(parameterToString(r.operatorId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.exportRequest == nil {
+		return localVarReturnValue, nil, reportError("exportRequest is required and must be specified")
+	}
+
+	if r.exportMode != nil {
+		localVarQueryParams.Add("export_mode", parameterToString(*r.exportMode, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.exportRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiExportFunkStatsRequest struct {
+	ctx context.Context
+	ApiService *StatsApiService
+	operatorId string
+	exportRequest *ExportRequest
+	exportMode *string
+}
+
+// export time period
+func (r ApiExportFunkStatsRequest) ExportRequest(exportRequest ExportRequest) ApiExportFunkStatsRequest {
+	r.exportRequest = &exportRequest
+	return r
+}
+// export_mode (async, sync)
+func (r ApiExportFunkStatsRequest) ExportMode(exportMode string) ApiExportFunkStatsRequest {
+	r.exportMode = &exportMode
+	return r
+}
+
+func (r ApiExportFunkStatsRequest) Execute() (*FileExportResponse, *http.Response, error) {
+	return r.ApiService.ExportFunkStatsExecute(r)
+}
+
+/*
+ExportFunkStats Export Funk Usage Report of All Subscribers.
+
+Retrieves a file containing the SORACOM Funk usage report of all subscribers for the specified operator. The report data range is specified with from, to in unixtime. The report contains monthly data. The file output destination is AWS S3. The file output format is CSV.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param operatorId operator ID
+ @return ApiExportFunkStatsRequest
+*/
+func (a *StatsApiService) ExportFunkStats(ctx context.Context, operatorId string) ApiExportFunkStatsRequest {
+	return ApiExportFunkStatsRequest{
+		ApiService: a,
+		ctx: ctx,
+		operatorId: operatorId,
+	}
+}
+
+// Execute executes the request
+//  @return FileExportResponse
+func (a *StatsApiService) ExportFunkStatsExecute(r ApiExportFunkStatsRequest) (*FileExportResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FileExportResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StatsApiService.ExportFunkStats")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stats/funk/operators/{operator_id}/export"
+	localVarPath = strings.Replace(localVarPath, "{"+"operator_id"+"}", url.PathEscape(parameterToString(r.operatorId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.exportRequest == nil {
+		return localVarReturnValue, nil, reportError("exportRequest is required and must be specified")
+	}
+
+	if r.exportMode != nil {
+		localVarQueryParams.Add("export_mode", parameterToString(*r.exportMode, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.exportRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiExportFunnelStatsRequest struct {
+	ctx context.Context
+	ApiService *StatsApiService
+	operatorId string
+	exportRequest *ExportRequest
+	exportMode *string
+}
+
+// export time period
+func (r ApiExportFunnelStatsRequest) ExportRequest(exportRequest ExportRequest) ApiExportFunnelStatsRequest {
+	r.exportRequest = &exportRequest
+	return r
+}
+// export_mode (async, sync)
+func (r ApiExportFunnelStatsRequest) ExportMode(exportMode string) ApiExportFunnelStatsRequest {
+	r.exportMode = &exportMode
+	return r
+}
+
+func (r ApiExportFunnelStatsRequest) Execute() (*FileExportResponse, *http.Response, error) {
+	return r.ApiService.ExportFunnelStatsExecute(r)
+}
+
+/*
+ExportFunnelStats Export Funnel Usage Report of All Subscribers.
+
+Retrieves a file containing the SORACOM Funnel usage report of all subscribers for the specified operator. The report data range is specified with from, to in unixtime. The report contains monthly data. The file output destination is AWS S3. The file output format is CSV.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param operatorId operator ID
+ @return ApiExportFunnelStatsRequest
+*/
+func (a *StatsApiService) ExportFunnelStats(ctx context.Context, operatorId string) ApiExportFunnelStatsRequest {
+	return ApiExportFunnelStatsRequest{
+		ApiService: a,
+		ctx: ctx,
+		operatorId: operatorId,
+	}
+}
+
+// Execute executes the request
+//  @return FileExportResponse
+func (a *StatsApiService) ExportFunnelStatsExecute(r ApiExportFunnelStatsRequest) (*FileExportResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *FileExportResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StatsApiService.ExportFunnelStats")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stats/funnel/operators/{operator_id}/export"
 	localVarPath = strings.Replace(localVarPath, "{"+"operator_id"+"}", url.PathEscape(parameterToString(r.operatorId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -554,8 +858,8 @@ func (a *StatsApiService) GetAirStatsOfSimExecute(r ApiGetAirStatsOfSimRequest) 
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/stats/air/sims/{simId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"simId"+"}", url.PathEscape(parameterToString(r.simId, "")), -1)
+	localVarPath := localBasePath + "/stats/air/sims/{sim_id}"
+	localVarPath = strings.Replace(localVarPath, "{"+"sim_id"+"}", url.PathEscape(parameterToString(r.simId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -817,6 +1121,330 @@ func (a *StatsApiService) GetBeamStatsExecute(r ApiGetBeamStatsRequest) ([]BeamS
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetFunkStatsRequest struct {
+	ctx context.Context
+	ApiService *StatsApiService
+	imsi string
+	from *int32
+	to *int32
+	period *string
+}
+
+// Start time in unixtime for the aggregate data.
+func (r ApiGetFunkStatsRequest) From(from int32) ApiGetFunkStatsRequest {
+	r.from = &from
+	return r
+}
+// End time in unixtime for the aggregate data.
+func (r ApiGetFunkStatsRequest) To(to int32) ApiGetFunkStatsRequest {
+	r.to = &to
+	return r
+}
+// Units of aggregate data. For minutes, the interval is around 5 minutes.
+func (r ApiGetFunkStatsRequest) Period(period string) ApiGetFunkStatsRequest {
+	r.period = &period
+	return r
+}
+
+func (r ApiGetFunkStatsRequest) Execute() ([]FunkStatsResponse, *http.Response, error) {
+	return r.ApiService.GetFunkStatsExecute(r)
+}
+
+/*
+GetFunkStats Get Funk Usage Report of Subscriber.
+
+Retrieves the Soracom Funk usage report for the subscriber specified by the IMSI.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param imsi imsi
+ @return ApiGetFunkStatsRequest
+*/
+func (a *StatsApiService) GetFunkStats(ctx context.Context, imsi string) ApiGetFunkStatsRequest {
+	return ApiGetFunkStatsRequest{
+		ApiService: a,
+		ctx: ctx,
+		imsi: imsi,
+	}
+}
+
+// Execute executes the request
+//  @return []FunkStatsResponse
+func (a *StatsApiService) GetFunkStatsExecute(r ApiGetFunkStatsRequest) ([]FunkStatsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []FunkStatsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StatsApiService.GetFunkStats")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stats/funk/subscribers/{imsi}"
+	localVarPath = strings.Replace(localVarPath, "{"+"imsi"+"}", url.PathEscape(parameterToString(r.imsi, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.from == nil {
+		return localVarReturnValue, nil, reportError("from is required and must be specified")
+	}
+	if r.to == nil {
+		return localVarReturnValue, nil, reportError("to is required and must be specified")
+	}
+	if r.period == nil {
+		return localVarReturnValue, nil, reportError("period is required and must be specified")
+	}
+
+	localVarQueryParams.Add("from", parameterToString(*r.from, ""))
+	localVarQueryParams.Add("to", parameterToString(*r.to, ""))
+	localVarQueryParams.Add("period", parameterToString(*r.period, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetFunnelStatsRequest struct {
+	ctx context.Context
+	ApiService *StatsApiService
+	imsi string
+	from *int32
+	to *int32
+	period *string
+}
+
+// Start time in unixtime for the aggregate data.
+func (r ApiGetFunnelStatsRequest) From(from int32) ApiGetFunnelStatsRequest {
+	r.from = &from
+	return r
+}
+// End time in unixtime for the aggregate data.
+func (r ApiGetFunnelStatsRequest) To(to int32) ApiGetFunnelStatsRequest {
+	r.to = &to
+	return r
+}
+// Units of aggregate data. For minutes, the interval is around 5 minutes.
+func (r ApiGetFunnelStatsRequest) Period(period string) ApiGetFunnelStatsRequest {
+	r.period = &period
+	return r
+}
+
+func (r ApiGetFunnelStatsRequest) Execute() ([]FunnelStatsResponse, *http.Response, error) {
+	return r.ApiService.GetFunnelStatsExecute(r)
+}
+
+/*
+GetFunnelStats Get Funnel Usage Report of Subscriber.
+
+Retrieves the Soracom Funnel usage report for the subscriber specified by the IMSI.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param imsi imsi
+ @return ApiGetFunnelStatsRequest
+*/
+func (a *StatsApiService) GetFunnelStats(ctx context.Context, imsi string) ApiGetFunnelStatsRequest {
+	return ApiGetFunnelStatsRequest{
+		ApiService: a,
+		ctx: ctx,
+		imsi: imsi,
+	}
+}
+
+// Execute executes the request
+//  @return []FunnelStatsResponse
+func (a *StatsApiService) GetFunnelStatsExecute(r ApiGetFunnelStatsRequest) ([]FunnelStatsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []FunnelStatsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StatsApiService.GetFunnelStats")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stats/funnel/subscribers/{imsi}"
+	localVarPath = strings.Replace(localVarPath, "{"+"imsi"+"}", url.PathEscape(parameterToString(r.imsi, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.from == nil {
+		return localVarReturnValue, nil, reportError("from is required and must be specified")
+	}
+	if r.to == nil {
+		return localVarReturnValue, nil, reportError("to is required and must be specified")
+	}
+	if r.period == nil {
+		return localVarReturnValue, nil, reportError("period is required and must be specified")
+	}
+
+	localVarQueryParams.Add("from", parameterToString(*r.from, ""))
+	localVarQueryParams.Add("to", parameterToString(*r.to, ""))
+	localVarQueryParams.Add("period", parameterToString(*r.period, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetHarvestExportedDataStatsRequest struct {
 	ctx context.Context
 	ApiService *StatsApiService
@@ -876,6 +1504,168 @@ func (a *StatsApiService) GetHarvestExportedDataStatsExecute(r ApiGetHarvestExpo
 	if r.yearMonth != nil {
 		localVarQueryParams.Add("year_month", parameterToString(*r.yearMonth, ""))
 	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetHarvestStatsRequest struct {
+	ctx context.Context
+	ApiService *StatsApiService
+	imsi string
+	from *int32
+	to *int32
+	period *string
+}
+
+// Start time in unixtime for the aggregate data.
+func (r ApiGetHarvestStatsRequest) From(from int32) ApiGetHarvestStatsRequest {
+	r.from = &from
+	return r
+}
+// End time in unixtime for the aggregate data.
+func (r ApiGetHarvestStatsRequest) To(to int32) ApiGetHarvestStatsRequest {
+	r.to = &to
+	return r
+}
+// Units of aggregate data. For minutes, the interval is around 5 minutes.
+func (r ApiGetHarvestStatsRequest) Period(period string) ApiGetHarvestStatsRequest {
+	r.period = &period
+	return r
+}
+
+func (r ApiGetHarvestStatsRequest) Execute() ([]HarvestStatsResponse, *http.Response, error) {
+	return r.ApiService.GetHarvestStatsExecute(r)
+}
+
+/*
+GetHarvestStats Get Harvest Usage Report of Subscriber.
+
+Retrieves the Soracom Harvest usage report for the subscriber specified by the IMSI.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param imsi imsi
+ @return ApiGetHarvestStatsRequest
+*/
+func (a *StatsApiService) GetHarvestStats(ctx context.Context, imsi string) ApiGetHarvestStatsRequest {
+	return ApiGetHarvestStatsRequest{
+		ApiService: a,
+		ctx: ctx,
+		imsi: imsi,
+	}
+}
+
+// Execute executes the request
+//  @return []HarvestStatsResponse
+func (a *StatsApiService) GetHarvestStatsExecute(r ApiGetHarvestStatsRequest) ([]HarvestStatsResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []HarvestStatsResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StatsApiService.GetHarvestStats")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stats/harvest/subscribers/{imsi}"
+	localVarPath = strings.Replace(localVarPath, "{"+"imsi"+"}", url.PathEscape(parameterToString(r.imsi, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.from == nil {
+		return localVarReturnValue, nil, reportError("from is required and must be specified")
+	}
+	if r.to == nil {
+		return localVarReturnValue, nil, reportError("to is required and must be specified")
+	}
+	if r.period == nil {
+		return localVarReturnValue, nil, reportError("period is required and must be specified")
+	}
+
+	localVarQueryParams.Add("from", parameterToString(*r.from, ""))
+	localVarQueryParams.Add("to", parameterToString(*r.to, ""))
+	localVarQueryParams.Add("period", parameterToString(*r.period, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 

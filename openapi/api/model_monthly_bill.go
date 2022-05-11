@@ -20,7 +20,7 @@ type MonthlyBill struct {
 	Amount *int64 `json:"amount,omitempty"`
 	// 直近の課金ステータス
 	PaymentStatus *string `json:"paymentStatus,omitempty"`
-	// 課金詳細取得用のID
+	// 課金詳細取得用の ID
 	PaymentTransactionId *string `json:"paymentTransactionId,omitempty"`
 	// 年月
 	YearMonth *string `json:"yearMonth,omitempty"`

@@ -1556,7 +1556,7 @@ func (r ApiListSessionEventsRequest) Execute() ([]SessionEvent, *http.Response, 
 /*
 ListSessionEvents List Session Events.
 
-Returns the event history for the specified subscriber, including session creation, change, and deletion. If the total number of events does not fit in one page, a URL for accessing the next page is returned in the `Link` header of the response.
+Returns the history of session creation, change, and deletion events occurred on the target SIM in the last 32 days. If the total number of events does not fit in one page, a URL for accessing the next page is returned in the `Link` header of the response.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param imsi IMSI of the target subscriber.

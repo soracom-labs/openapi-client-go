@@ -17,7 +17,7 @@ import (
 // RegisterOperatorsRequest struct for RegisterOperatorsRequest
 type RegisterOperatorsRequest struct {
 	Email string `json:"email"`
-	// パスワードは以下の条件を満たしている必要があります：長さ 8 文字以上100 文字以内、アルファベット小文字 (a-z) を 1 文字以上使用、アルファベット大文字 (A-Z) を 1 文字以上使用、数字を 1 文字以上使用。記号なども使用できます。
+	// パスワードは以下の条件を満たしている必要があります：長さ 8 文字以上 100 文字以内、アルファベット小文字 (a-z) を 1 文字以上使用、アルファベット大文字 (A-Z) を 1 文字以上使用、数字を 1 文字以上使用。記号なども使用できます。
 	Password string `json:"password"`
 }
 

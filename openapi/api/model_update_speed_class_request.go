@@ -16,6 +16,7 @@ import (
 
 // UpdateSpeedClassRequest struct for UpdateSpeedClassRequest
 type UpdateSpeedClassRequest struct {
+	// 速度クラス。以下のいずれかを指定します。ただし、サブスクリプションにあわせた速度クラスを指定してください。 - plan01s、plan01s - Low Data Volume、planX3、plan-D の場合:     - `s1.minimum`     - `s1.slow`     - `s1.standard`     - `s1.fast`     - `s1.4xfast` - plan-KM1 の場合:     - `t1.standard` - plan-DU の場合:     - `u1.standard`     - `u1.slow` - バーチャル SIM/Subscriber の場合:     - `arc.standard` 
 	SpeedClass string `json:"speedClass"`
 }
 

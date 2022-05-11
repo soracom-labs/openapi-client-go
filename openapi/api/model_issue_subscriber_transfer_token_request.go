@@ -20,7 +20,7 @@ type IssueSubscriberTransferTokenRequest struct {
 	TransferDestinationOperatorEmail string `json:"transferDestinationOperatorEmail"`
 	// 移管先オペレーターID
 	TransferDestinationOperatorId string `json:"transferDestinationOperatorId"`
-	// 移管するIMSIリスト
+	// 移管する IMSI リスト
 	TransferImsi []string `json:"transferImsi"`
 }
 

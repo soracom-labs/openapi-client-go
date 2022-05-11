@@ -18,7 +18,7 @@ import (
 type RoleResponse struct {
 	CreateDateTime *int64 `json:"createDateTime,omitempty"`
 	Description *string `json:"description,omitempty"`
-	// PermissionのJSON
+	// Permission の JSON
 	Permission *string `json:"permission,omitempty"`
 	RoleId *string `json:"roleId,omitempty"`
 	UpdateDateTime *int64 `json:"updateDateTime,omitempty"`

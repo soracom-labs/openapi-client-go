@@ -16,6 +16,7 @@ import (
 
 // ExpiryTime struct for ExpiryTime
 type ExpiryTime struct {
+	// 期限切れ時のアクション。以下のいずれかを指定します。各設定について詳しくは、[IoT SIM の有効期限とアクションを設定する](/ja-jp/docs/air/set-expiry/) を参照してください。なお、`terminate` を指定する場合は、あらかじめ解約プロテクションを解除してください。 - `doNothing` : 保留 - `deleteSession` : セッション切断 - `deactivate` : 休止 - `suspend` : 利用中断 - `terminate` : 解約 
 	ExpiryAction *string `json:"expiryAction,omitempty"`
 	// The timestamp (in Unix milliseconds) of a date and time set using the Expiration function. If no Expiration function is set, null is returned.
 	ExpiryTime int64 `json:"expiryTime"`

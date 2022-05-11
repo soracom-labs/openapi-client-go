@@ -17,6 +17,7 @@ import (
 // RegisterSimRequest struct for RegisterSimRequest
 type RegisterSimRequest struct {
 	GroupId *string `json:"groupId,omitempty"`
+	// PUK or PASSCODE on SIM card
 	RegistrationSecret string `json:"registrationSecret"`
 	Tags []TagUpdateRequest `json:"tags,omitempty"`
 }

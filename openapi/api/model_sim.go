@@ -38,6 +38,7 @@ type Sim struct {
 	SessionStatus *SessionStatus `json:"sessionStatus,omitempty"`
 	SimId *string `json:"simId,omitempty"`
 	SpeedClass *string `json:"speedClass,omitempty"`
+	// IoT SIM のステータス - `ready`: 準備完了 - `active`: 使用中 - `inactive`: 休止中 - `standby`: 利用開始待ち - `suspended`: 利用中断中 - `terminated`: 解約済み 
 	Status *string `json:"status,omitempty"`
 	// An object which always contains at least one property \"name\" with a string value. If you give a subscriber/SIM a name, the name will be returned as the value of the \"name\" property. If the subscriber/SIM does not have a name, an empty string \"\" is returned. In addition, if you create any custom tags for the subscriber/SIM, each custom tag will appear as additional properties in the object.
 	Tags *map[string]string `json:"tags,omitempty"`

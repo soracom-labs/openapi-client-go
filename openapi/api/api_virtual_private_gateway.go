@@ -1227,6 +1227,270 @@ func (a *VirtualPrivateGatewayApiService) DeleteVpcPeeringConnectionExecute(r Ap
 	return localVarHTTPResponse, nil
 }
 
+type ApiDisableGatePrivacySeparatorRequest struct {
+	ctx context.Context
+	ApiService *VirtualPrivateGatewayApiService
+	vpgId string
+}
+
+
+func (r ApiDisableGatePrivacySeparatorRequest) Execute() (*VirtualPrivateGateway, *http.Response, error) {
+	return r.ApiService.DisableGatePrivacySeparatorExecute(r)
+}
+
+/*
+DisableGatePrivacySeparator Disable SORACOM Gate privacy separator feature on the VPG
+
+Disable SORACOM Gate privacy separator feature on the VPG to allow the Gate D2D function.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param vpgId VPG ID
+ @return ApiDisableGatePrivacySeparatorRequest
+*/
+func (a *VirtualPrivateGatewayApiService) DisableGatePrivacySeparator(ctx context.Context, vpgId string) ApiDisableGatePrivacySeparatorRequest {
+	return ApiDisableGatePrivacySeparatorRequest{
+		ApiService: a,
+		ctx: ctx,
+		vpgId: vpgId,
+	}
+}
+
+// Execute executes the request
+//  @return VirtualPrivateGateway
+func (a *VirtualPrivateGatewayApiService) DisableGatePrivacySeparatorExecute(r ApiDisableGatePrivacySeparatorRequest) (*VirtualPrivateGateway, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *VirtualPrivateGateway
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirtualPrivateGatewayApiService.DisableGatePrivacySeparator")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virtual_private_gateways/{vpg_id}/gate/disable_privacy_separator"
+	localVarPath = strings.Replace(localVarPath, "{"+"vpg_id"+"}", url.PathEscape(parameterToString(r.vpgId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiEnableGatePrivacySeparatorRequest struct {
+	ctx context.Context
+	ApiService *VirtualPrivateGatewayApiService
+	vpgId string
+}
+
+
+func (r ApiEnableGatePrivacySeparatorRequest) Execute() (*VirtualPrivateGateway, *http.Response, error) {
+	return r.ApiService.EnableGatePrivacySeparatorExecute(r)
+}
+
+/*
+EnableGatePrivacySeparator Enable SORACOM Gate privacy separator feature on the VPG
+
+Enable SORACOM Gate privacy separator feature on the VPG to prohibit the Gate D2D function.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param vpgId VPG ID
+ @return ApiEnableGatePrivacySeparatorRequest
+*/
+func (a *VirtualPrivateGatewayApiService) EnableGatePrivacySeparator(ctx context.Context, vpgId string) ApiEnableGatePrivacySeparatorRequest {
+	return ApiEnableGatePrivacySeparatorRequest{
+		ApiService: a,
+		ctx: ctx,
+		vpgId: vpgId,
+	}
+}
+
+// Execute executes the request
+//  @return VirtualPrivateGateway
+func (a *VirtualPrivateGatewayApiService) EnableGatePrivacySeparatorExecute(r ApiEnableGatePrivacySeparatorRequest) (*VirtualPrivateGateway, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *VirtualPrivateGateway
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "VirtualPrivateGatewayApiService.EnableGatePrivacySeparator")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/virtual_private_gateways/{vpg_id}/gate/enable_privacy_separator"
+	localVarPath = strings.Replace(localVarPath, "{"+"vpg_id"+"}", url.PathEscape(parameterToString(r.vpgId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_key"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["api_token"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-Soracom-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiGetPacketCaptureSessionRequest struct {
 	ctx context.Context
 	ApiService *VirtualPrivateGatewayApiService
