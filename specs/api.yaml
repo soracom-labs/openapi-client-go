@@ -1444,10 +1444,7 @@ paths:
             schema:
               properties:
                 value:
-                  oneOf:
-                  - type: string
-                  - type: number
-                  - type: boolean
+                  type: string
               type: object
         description: Value(s) to write to the resource. This value accepts LwM2M basic
           data types. You have to use the property name `values` (instead of `value`)
@@ -14872,26 +14869,7 @@ components:
         credentialsId:
           type: string
         destination:
-          oneOf:
-          - $ref: '#/components/schemas/FunnelDestination'
-          - $ref: '#/components/schemas/FunnelAWSFirehoseDestination'
-          - $ref: '#/components/schemas/FunnelAWSIoTDestination'
-          - $ref: '#/components/schemas/FunnelAWSKinesisDestination'
-          - $ref: '#/components/schemas/FunnelAzureEventHubDestination'
-          - $ref: '#/components/schemas/FunnelGooglePubSubDestination'
-          - $ref: '#/components/schemas/FunnelAcroquestTorrentioDestination'
-          - $ref: '#/components/schemas/FunnelAppressoDataSpiderDestination'
-          - $ref: '#/components/schemas/FunnelBrainsTechImpulseDestination'
-          - $ref: '#/components/schemas/FunnelEsrijArcgisOnlineDestination'
-          - $ref: '#/components/schemas/FunnelFusicMockmockDatarecorderDestination'
-          - $ref: '#/components/schemas/FunnelInfoteriaPlatioDestination'
-          - $ref: '#/components/schemas/FunnelKiiThingifDestination'
-          - $ref: '#/components/schemas/FunnelLandlogDestination'
-          - $ref: '#/components/schemas/FunnelOptimCloudiotosDestination'
-          - $ref: '#/components/schemas/FunnelTeradataIntellicloudDestination'
-          - $ref: '#/components/schemas/FunnelWingarcMotionboardDestination'
-          - $ref: '#/components/schemas/FunnelYaskawaMmcloudDestination'
-          - $ref: '#/components/schemas/FunnelSensorCorpusDestination'
+          $ref: '#/components/schemas/FunnelDestination'
         enabled:
           default: false
           type: boolean
