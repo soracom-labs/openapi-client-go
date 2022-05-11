@@ -11477,7 +11477,7 @@ paths:
   /subscribers/{imsi}/downlink/ping:
     post:
       description: Send ICMP ping requests to a subscriber.
-      operationId: downlinkPingToUserEquipment
+      operationId: sendSubscriberDownlinkPing
       parameters:
       - description: IMSI of the target subscriber.
         in: path
